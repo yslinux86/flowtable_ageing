@@ -50,20 +50,60 @@
 若遍历节点后发现存在同样的流，则将该已存在的流移至当前【最新】等级链表中。
 ## 4.3 添加到老化等级链表
 根据流数据查找结果，将添加到老化链表中，或更新再老化链表中的位置。
+
 注：这也是区别于传统流处理流程，新增了老化等级链表，并根据老化等级进行老化，无需根据每个流的时间戳老化。
 # 5 老化处理流程
 ## 5.1 何时发生老化
 定义一个标记位，每隔一段时间对该标记位增加1，如index=0，新来的流全部添加到下标为0的老化链表中，在1秒后，index=1，这时新来的流全部添加到下标为1的老化链表中，这时index=2的老化链表中存在的数据及相应的哈希表中节点数据全部删除，以此类推。
 ## 5.2 老化动作
 将最旧老化链表中的节点数据及相应的哈希表中节点数据全部删除。
-# 6 编译测试
-## 6.1 编译环境
-````
+# 6 流程图
+## 6.1 新流处理流程
+```mermaid
+graph TD
+start(开始)
+newflow[新流]
+calhash[计算哈希值]
+findhashbucket{在哈希表中查询是否存在值}
+appendhashbucket[添加到哈希表]
+appendageinglist[添加到最新老化表]
+foreachcmp[遍历比较五元组]
+issame{是否存在相同五元组}
+isfresh{是否在最新老化表}
+movetofresh[移至最新老化表]
+sametuple[同一五元组]
+difftuple[五元组不同/哈希碰撞]
+over(结束)
+
+start-->newflow-->calhash-->findhashbucket
+findhashbucket--存在-->foreachcmp-->issame--是-->sametuple-->isfresh
+isfresh--在最新老化表-->over
+isfresh--不在最新老化表-->movetofresh-->over
+findhashbucket--不存在-->appendhashbucket-->appendageinglist-->over
+issame--否-->difftuple-->appendhashbucket
+```
+## 6.2 老化处理流程
+```mermaid
+graph TD
+start(开始)
+update>定时更新老化标记]
+check[根据老化标记检测是否需要老化]
+foreachageinglist[遍历老化链表]
+deletenode[删除老化链表节点]
+deletehashbucket[删除哈希桶中相应节点]
+over(结束)
+
+start-->check-->foreachageinglist-->deletenode-->deletehashbucket-->over
+update-->check
+```
+# 7 编译测试
+## 7.1 编译环境
+```
 sudo apt install libglib2.0-dev
 make clean
 make
-````
-## 6.2 测试
-````
-flowageing.bin
-````
+```
+## 7.2 测试
+```
+./flowageing.bin
+```
