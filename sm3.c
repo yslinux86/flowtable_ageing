@@ -37,7 +37,6 @@ void hex_dump(const void *src, size_t length)
     printf("\n");
 }
 
-
 static void sch_starts(sch_context *ctx)
 {
     ctx->total[0] = 0;

@@ -61,7 +61,7 @@ gint compare_node(gconstpointer oldnode, gconstpointer newnode)
 
     if (memcmp((void*)&_nodedata->fivetuple, (void*)&_userdata->fivetuple, sizeof(five_tuple_t)) == 0)
     {
-        printf("\t\tSAME five tuple\n");
+        printf("[SAME] five tuple\n");
         return 0;
     }
     else
@@ -122,8 +122,8 @@ void find_hashbucket(node_data_t* flowinfo)
         {
             //存在同样的流，只需更新流状态等级
             node_data_t* nodedata = foundnode->data;
-            print_nodedata1("\nnew node\n", flowinfo);
-            print_nodedata1("\nold node\n", nodedata);
+            // print_nodedata1("\nnew node\n", flowinfo);
+            // print_nodedata1("\nold node\n", nodedata);
 
             free(flowinfo);
             if (nodedata->my_class != fresh_class)

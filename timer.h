@@ -8,6 +8,5 @@
 
 void start_timer(uint8_t timegap);
 void stop_timer();
-int print_flag();
 
 #endif

@@ -81,9 +81,6 @@ void process_fivetuple()
     value[3] = g_rand_int_range(rand1, 1, MAX_PORT);
     value[4] = g_rand_int_range(rand1, 0, 5);
 
-    // for (ii=0; ii<5; ii++)
-    //     printf("%d, %u\n", ii, value[ii]);
-
     flowinfo->fivetuple.src_ip = value[0];
     flowinfo->fivetuple.dst_ip = value[1];
     flowinfo->fivetuple.src_port = value[2];

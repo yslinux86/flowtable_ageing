@@ -21,7 +21,7 @@ void* update_ageing_class(void* arg)
     {
         sleep(timegap);
 
-        printf("+++++++++++++++++++ last class=%u, last class ageing list length = %u\n", 
+        printf("last class=[%u], last class ageing list length = [%u]\n", 
             fresh_class, get_size_ageinglist(fresh_class));
         fresh_class++;
         if (fresh_class >= AGEING_CLASS_NUM)
@@ -50,9 +50,4 @@ void start_timer(uint8_t timegap)
 void stop_timer()
 {
     timer_runing_flag = 0;
-}
-
-int print_flag()
-{
-    printf("fresh_class=%u\n", fresh_class);
 }

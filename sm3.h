@@ -1,7 +1,6 @@
 #ifndef __SM3_H__
 #define __SM3_H__
 
-
 #define MAX_BUFSIZE 4096
 
 #define GET_UINT32(n,b,i)                         \
