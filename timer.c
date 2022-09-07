@@ -23,13 +23,13 @@ void* update_ageing_class(void* arg)
 
         printf("last class=[%u], last class ageing list length = [%u]\n", 
             fresh_class, get_size_ageinglist(fresh_class));
+
         fresh_class++;
         if (fresh_class >= AGEING_CLASS_NUM)
             fresh_class = 0;
     }
 
     printf("%s, exit\n", __func__);
-
     return NULL;
 }
 

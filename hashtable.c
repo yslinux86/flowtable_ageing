@@ -30,7 +30,7 @@ void insert_hashtbucket_agelist(node_data_t* flowinfo)
     append_ageing_list(flowinfo);
 }
 
-void destroy_node(gpointer data, uint32_t index)
+void destroy_bucket_node(gpointer data, uint32_t index)
 {
     if (index >= HASHTABLE_SIZE)
         return;
@@ -51,7 +51,7 @@ void destroy_node(gpointer data, uint32_t index)
 }
 
 /* newnode为新生成的五元组节点数据，oldnode为已存在于哈希链表中的旧数据 */
-gint compare_node(gconstpointer oldnode, gconstpointer newnode)
+static gint compare_node(gconstpointer oldnode, gconstpointer newnode)
 {
     node_data_t* _nodedata = (node_data_t*)oldnode;
     node_data_t* _userdata = (node_data_t*)newnode;
@@ -141,13 +141,13 @@ void find_hashbucket(node_data_t* flowinfo)
 }
 
 //展示哈希表信息，目前100万条流
-void* show_hashtable(void* arg)
+static void* show_hashbucket(void* arg)
 {
     unsigned long i;
     runing_flag = 1;
     unsigned long flow_size;
     uint8_t showtimegap = *(uint8_t*)arg;
-    prctl(PR_SET_NAME, "show_hashtable");
+    prctl(PR_SET_NAME, "show_hashbucket");
 
     while(runing_flag)
     {
@@ -171,6 +171,7 @@ void* show_hashtable(void* arg)
     return NULL;
 }
 
+/* 每隔 showtimegap 秒 展示一次哈希桶里存放的流 */
 void start_show_hashtable(uint8_t showtimegap)
 {
     int ret;
@@ -179,7 +180,7 @@ void start_show_hashtable(uint8_t showtimegap)
     if (showtimegap < 30 || showtimegap > 600)
         showtimegap = 60;
 
-    ret = pthread_create(&pid, NULL, show_hashtable, &showtimegap);
+    ret = pthread_create(&pid, NULL, show_hashbucket, &showtimegap);
     assert(ret == 0);
     usleep(100);
 }

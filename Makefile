@@ -1,6 +1,6 @@
 CC      = gcc
 INCLUDE = -I/usr/include/glib-2.0 \
-          -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+          -I/usr/lib/$(shell uname -i)-linux-gnu/glib-2.0/include
 CFLAGS  = $(FLAGS_GLOBAL)
 CFLAGS  += -g -Werror -fno-strict-aliasing
 LIB     = -lpthread \

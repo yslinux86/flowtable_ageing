@@ -9,6 +9,7 @@
 #include "flow.h"
 #include "hashtable.h"
 
+
 //最新位置
 extern uint8_t fresh_class;
 
@@ -62,7 +63,7 @@ static void foreach_func_cb(gpointer data, gpointer userdata)
     ageinglist[class] = g_list_remove(ageinglist[class], data);
     pthread_mutex_unlock(&ageinglock[class]);
 
-    destroy_node(data, index);
+    destroy_bucket_node(data, index);
 }
 
 uint32_t get_size_ageinglist(uint8_t class)
@@ -94,6 +95,7 @@ static void* process_flow(void* arg)
                 //老化所有节点
                 printf("------------------- prepare to DELETE my class %u ageing list, fresh_class=%u, length = %u\n", 
                     class, fresh_class, g_list_length(ageinglist[class]));
+
                 g_list_foreach(ageinglist[class], foreach_func_cb, NULL);
             }
         }
@@ -104,7 +106,6 @@ static void* process_flow(void* arg)
     }
 
     printf("%s exit\n", thread_name);
-
     return NULL;
 }
 
